@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { QRCodeSVG } from "qrcode.react";
 
 const Qrgen = () => {
-  const [categories, setCategories] = useState([]); 
-
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,7 +13,9 @@ const Qrgen = () => {
         const data = await response.json();
 
         if (data.length > 0) {
-          setCategories(data.map((item) => item.Category)); 
+          // Remove duplicates using a Set
+          const uniqueCategories = [...new Set(data.map((item) => item.Category))];
+          setCategories(uniqueCategories);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
