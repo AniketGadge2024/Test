@@ -1,22 +1,29 @@
 import { Html5QrcodeScanner } from "html5-qrcode";
 import React, { useEffect, useState, useRef } from "react";
+import useFetchGoogleSheetData from "../FetchGoogleSheetData"; 
 
 const AddItem = () => {
-  const [scannedData, setScannedData] = useState(""); // Stores QR Code data (Category)
-  const [amount, setAmount] = useState(""); // Stores manual Amount input
-  const scannerRef = useRef(null); // Reference for QR scanner instance
+  const [scannedData, setScannedData] = useState(""); 
+  const [selectedCategory, setSelectedCategory] = useState(""); 
+  const [manualCategory, setManualCategory] = useState(""); 
+  const [amount, setAmount] = useState(""); 
+  const scannerRef = useRef(null); 
 
   const googleScriptURL =
-    "https://script.google.com/macros/s/AKfycbxe8Sh8ixrETJZ452l06rVKRzJKAFDMxgx9j3WaGkw6EZpCl5o3JGj1uVAvg1MSZsar9A/exec"; // Replace with your actual script URL
+    "https://script.google.com/macros/s/AKfycbxe8Sh8ixrETJZ452l06rVKRzJKAFDMxgx9j3WaGkw6EZpCl5o3JGj1uVAvg1MSZsar9A/exec"; 
+
+  
+  const { data: categories, loading } = useFetchGoogleSheetData(googleScriptURL);
 
   useEffect(() => {
-    if (scannedData) return; // If scannedData is already set, stop further scanning.
-
+    if (scannedData || selectedCategory || manualCategory) return; 
     const onSuccess = (text) => {
-      setScannedData(text); 
+      setScannedData(text);
+      setSelectedCategory(""); 
+      setManualCategory(""); 
 
       if (scannerRef.current) {
-        scannerRef.current.clear(); // Stop the scanner after a successful scan
+        scannerRef.current.clear(); 
       }
     };
 
@@ -31,23 +38,43 @@ const AddItem = () => {
     );
 
     html5QrcodeScanner.render(onSuccess, onError);
-    scannerRef.current = html5QrcodeScanner; // Store scanner instance
+    scannerRef.current = html5QrcodeScanner;
 
     return () => {
-      html5QrcodeScanner.clear(); // Cleanup scanner when unmounting
+      html5QrcodeScanner.clear();
     };
-  }, [scannedData]); // Re-run only when scannedData changes
+  }, [scannedData, selectedCategory, manualCategory]); 
+
+  const handleSelectCategory = (event) => {
+    setSelectedCategory(event.target.value);
+    setScannedData(""); 
+    setManualCategory(""); 
+
+    if (scannerRef.current) {
+      scannerRef.current.clear(); 
+    }
+  };
+
+  const handleManualCategoryChange = (event) => {
+    setManualCategory(event.target.value);
+    setScannedData(""); 
+    setSelectedCategory(""); 
+    if (scannerRef.current) {
+      scannerRef.current.clear(); 
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!scannedData || !amount) {
-      alert("Please scan a QR code and enter an amount.");
+    const categoryToSubmit = scannedData || selectedCategory || manualCategory; 
+    if (!categoryToSubmit || !amount) {
+      alert("Please enter/select a category and enter an amount.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("Category", scannedData);
+    formData.append("Category", categoryToSubmit);
     formData.append("Amount", amount);
 
     try {
@@ -58,8 +85,10 @@ const AddItem = () => {
 
       if (response.ok) {
         alert("Data submitted successfully!");
-        setScannedData(""); // Reset scanned data
-        setAmount(""); // Reset amount input
+        setScannedData(""); 
+        setSelectedCategory(""); 
+        setManualCategory("");
+        setAmount(""); 
       } else {
         alert("Error submitting data.");
       }
@@ -70,23 +99,49 @@ const AddItem = () => {
 
   return (
     <div>
-      <h2>Scan QR Code & Enter Amount</h2>
-      {!scannedData && <div id="reader" style={{ width: "300px", height: "300px" }}></div>}
+      <h2>Scan QR Code, Select, or Enter Category</h2>
+
+     
+      {!scannedData && !selectedCategory && !manualCategory && (
+        <div id="reader" style={{ width: "300px", height: "300px" }}></div>
+      )}
 
       <form onSubmit={handleSubmit}>
-        
+
+       
         <input
           type="text"
           value={scannedData}
           placeholder="Scanned QR Code Data (Category)"
           readOnly
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginTop: "10px",
-            fontSize: "16px",
-          }}
+     
         />
+
+        
+        <select
+          value={selectedCategory}
+          onChange={handleSelectCategory}
+          disabled={!!manualCategory} 
+
+        >
+          <option value="">Select Category</option>
+          {categories.map((item, index) => (
+            <option key={index} value={item.Category}>
+              {item.Category}
+            </option>
+          ))}
+        </select>
+
+      
+        <input
+          type="text"
+          value={manualCategory}
+          onChange={handleManualCategoryChange}
+          placeholder="Or enter category manually"
+
+        />
+
+       
         <input
           type="number"
           id="Amount"
@@ -94,14 +149,9 @@ const AddItem = () => {
           onChange={(e) => setAmount(e.target.value)}
           placeholder="Enter Amount"
           required
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginTop: "10px",
-            fontSize: "16px",
-          }}
-        />
        
+        />
+
         <button type="submit" style={{ marginTop: "10px", padding: "10px" }}>
           Submit
         </button>
