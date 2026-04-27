@@ -1,9 +1,7 @@
 import React from 'react'
-import Dash from './Component/DashBoard/Dash'
-import Qrgen from './Component/QrGenerator/Qrgen'
-import AddItem from './Component/AddItem/AddItem'
-import Login from './Component/Admin/Login'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from './Components/Login';
+import Message from './Components/Message';
 
 const App = () => {
   return (
@@ -11,10 +9,9 @@ const App = () => {
 <Router>
 
 <Routes>
-  <Route path='/' element={ <Login></Login>}/>
-  <Route path='/Dash' element={<Dash></Dash>}/>
-  <Route path='/Qr' element={  <Qrgen></Qrgen>}/>
-  <Route path='/Add' element={ <AddItem></AddItem>}/>
+  <Route path='/' element={<Login></Login> }/>
+  <Route path='/message' element={<Message></Message> }/>
+  
 </Routes>
 
 </Router>
