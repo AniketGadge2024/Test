@@ -5,7 +5,7 @@ const Login = () => {
   const [pin, setPin] = useState(new Array(6).fill(""));
   const inputRefs = useRef([]);
   const navigate = useNavigate();
-  const correctPin = "052001"; // Set your desired PIN here
+  const correctPin = "100526"; // Set your desired PIN here
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
