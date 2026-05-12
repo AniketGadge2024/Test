@@ -28,7 +28,7 @@ const Login = () => {
 
   useEffect(() => {
     if (pin.join("") === correctPin) {
-      navigate('/message'); // Redirects to Message.jsx
+      navigate('/buss'); // Redirects to Message.jsx
     }
   }, [pin, navigate]);
 

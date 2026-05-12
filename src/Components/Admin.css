@@ -1,0 +1,253 @@
+/* --- Admin Panel Core Variables --- */
+:root {
+  --admin-bg: #f8fafc;
+  --admin-surface: #ffffff;
+  --admin-text: #0f172a;
+  --admin-muted: #64748b;
+  --admin-border: #e2e8f0;
+  --admin-success: #10b981;
+  --admin-blue: #3b82f6;
+  --admin-radius: 12px;
+  --admin-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  --admin-anim: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Layout Header & Actions --- */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-bottom: 1px solid var(--admin-border);
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.refresh-btn {
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border) !important;
+  color: var(--admin-text) !important;
+  font-weight: 600 !important;
+  padding: 10px 16px !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px !important;
+  cursor: pointer;
+  transition: var(--admin-anim);
+}
+
+.refresh-btn:hover:not(:disabled) {
+  background-color: var(--admin-bg);
+  border-color: #cbd5e1 !important;
+  transform: translateY(-1px);
+}
+
+/* --- Async Loading & Empty Component Indicators --- */
+.loading-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: var(--admin-muted);
+  gap: 16px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--admin-border);
+  border-top-color: var(--admin-blue);
+  border-radius: 50%;
+  animation: adminSpin 0.8s linear infinite;
+}
+
+@keyframes adminSpin {
+  to { transform: rotate(360deg); }
+}
+
+.empty-placeholder {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--admin-muted);
+  font-style: italic;
+  font-size: 14px;
+}
+
+/* --- Laptop Desktop Framework Layout (768px and up) --- */
+.table-responsive-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--admin-radius);
+  border: 1px solid var(--admin-border);
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow);
+}
+
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.log-table th {
+  background-color: #fafafa;
+  color: var(--admin-muted);
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.log-table td {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--admin-border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.log-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* --- Table Column Modifiers --- */
+.td-date {
+  white-space: nowrap;
+  color: var(--admin-text);
+  font-weight: 500;
+}
+
+.breakdown-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 340px;
+}
+
+.chip {
+  background-color: var(--admin-bg);
+  border: 1px solid var(--admin-border);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #334155;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chip strong {
+  color: var(--admin-text);
+}
+
+.td-currency {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.td-currency.neg { color: var(--admin-blue); }
+.td-currency.pos { color: var(--admin-success); }
+
+.td-notes {
+  max-width: 280px;
+}
+
+.notes-text {
+  display: block;
+  font-size: 13px;
+  color: var(--admin-muted);
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+/* --- MOBILE TARGET CODES & TRANSFORMATIONS (Max width 767px) --- */
+@media (max-width: 767px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .refresh-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .table-responsive-container {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* Strip down tables completely to compile clean vertical cards */
+  .log-table, 
+  .log-table thead, 
+  .log-table tbody, 
+  .log-table th, 
+  .log-table td, 
+  .log-table tr { 
+    display: block; 
+  }
+  
+  .log-table thead {
+    display: none; /* Hide top textual row header */
+  }
+  
+  .log-table tr {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    margin-bottom: 16px;
+    padding: 14px;
+    box-shadow: var(--admin-shadow);
+  }
+  
+  .log-table td {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--admin-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .log-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* Responsive Pseudo-Label Injection Matrix */
+  .log-table td::before {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--admin-muted);
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .log-table td.td-date::before { content: "Date Target"; }
+  .log-table td.td-breakdown::before { content: "Allocations"; }
+  .log-table td.td-currency.neg::before { content: "Total Invested"; }
+  .log-table td.td-currency.pos::before { content: "Total Revenue"; }
+  .log-table td.td-notes::before { content: "Notes Log"; }
+
+  /* Right justify item alignment targets on mobile views */
+  .log-table td strong,
+  .breakdown-chips,
+  .td-currency,
+  .notes-text {
+    text-align: right;
+  }
+
+  .breakdown-chips {
+    justify-content: flex-end;
+    max-width: 65%;
+  }
+}

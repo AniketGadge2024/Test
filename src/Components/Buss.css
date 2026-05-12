@@ -1,0 +1,314 @@
+/* --- Modern Minimal Variable Palette --- */
+:root {
+  --bg-app: #f8fafc;
+  --bg-surface: #ffffff;
+  --text-primary: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --accent-green: #10b981;
+  --accent-blue: #3b82f6;
+  --danger: #ef4444;
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tracker-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* --- Metric Total Dashboard Displays --- */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+.card.investment::before { background-color: var(--accent-blue); }
+.card.revenue::before { background-color: #6366f1; } /* Deep Indigo */
+.card.profit::before { background-color: var(--accent-green); }
+.card.loss::before { background-color: var(--danger); }
+
+.card-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.card.investment .card-value { color: var(--accent-blue); }
+.card.revenue .card-value { color: #6366f1; }
+.card.profit .card-value { color: var(--accent-green); }
+.card.loss .card-value { color: var(--danger); }
+
+/* --- Main Form Panel Structures --- */
+.main-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+}
+
+.panel-header {
+  margin-bottom: 24px;
+}
+
+.panel-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.02em;
+}
+
+.panel-header p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.tracker-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-input {
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  outline: none;
+  transition: var(--transition);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: #cbd5e1;
+  background-color: var(--bg-surface);
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.1);
+}
+
+.form-textarea {
+  height: 75px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.dynamic-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dynamic-row-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.flex-grow-2 { flex: 2; }
+.flex-grow-1 { flex: 1; }
+
+.btn-secondary {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px dashed #cbd5e1;
+  color: var(--text-muted);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-secondary:hover {
+  border-color: #94a3b8;
+  color: var(--text-primary);
+  background-color: var(--bg-app);
+}
+
+.btn-remove {
+  background: #fef2f2;
+  color: var(--danger);
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.btn-remove:hover {
+  background: #fee2e2;
+}
+
+.grid-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.action-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  color: #ffffff;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-add { background-color: #0f172a; }
+.btn-add:hover:not(:disabled) { background-color: #1e293b; }
+
+.btn-update {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+.btn-update:hover:not(:disabled) {
+  background-color: var(--bg-app);
+}
+
+.status-banner {
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  border: 1px solid;
+}
+
+.status-banner.success {
+  background-color: #f0fdf4;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+
+.status-banner.error {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+/* --- RESPONSIVE MEDIA BREAKPOINTS (Laptops and Desktops) --- */
+@media (min-width: 768px) {
+  .tracker-wrapper {
+    padding: 40px 24px;
+    gap: 32px;
+  }
+
+  /* Automatically balances into a beautifully distributed 3-column setup */
+  .dashboard-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+
+  .card-value {
+    font-size: 32px;
+  }
+
+  .main-panel {
+    padding: 40px;
+  }
+
+  .grid-split {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .action-row {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .btn-primary {
+    flex: 1;
+  }
+  
+  .btn-add { order: 2; }
+  .btn-update { order: 1; }
+}
